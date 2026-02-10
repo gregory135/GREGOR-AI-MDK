@@ -1,16 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Events from './components/Events';
 import Cinema from './components/Cinema';
 import Workshops from './components/Workshops';
+import News from './components/News';
+import Contact from './components/Contact';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
 const App: React.FC = () => {
   const [isHighContrast, setIsHighContrast] = useState(false);
-  const [fontSize, setFontSize] = useState(1); // multiplier
+  const [fontSizeIndex, setFontSizeIndex] = useState(0); // 0: normal, 1: large, 2: extra large
+  
+  const fontSizes = [1, 1.1, 1.2]; // rem values
 
   useEffect(() => {
     if (isHighContrast) {
@@ -21,11 +25,10 @@ const App: React.FC = () => {
   }, [isHighContrast]);
 
   const toggleContrast = () => setIsHighContrast(!isHighContrast);
-  const increaseFontSize = () => setFontSize(prev => Math.min(prev + 0.1, 1.5));
-  const resetFontSize = () => setFontSize(1);
+  const cycleFontSize = () => setFontSizeIndex((prev) => (prev + 1) % fontSizes.length);
 
   return (
-    <div style={{ fontSize: `${fontSize}rem` }} className="min-h-screen flex flex-col">
+    <div style={{ fontSize: `${fontSizes[fontSizeIndex]}rem` }} className="min-h-screen flex flex-col transition-[font-size] duration-200">
       <HashRouter>
         {/* Top Accessibility Bar */}
         <div className="bg-slate-900 text-white py-2 px-6 flex justify-between items-center text-xs">
@@ -33,16 +36,23 @@ const App: React.FC = () => {
             <button 
               onClick={toggleContrast}
               className="flex items-center gap-1 hover:text-primary transition-colors focus:ring-2 focus:ring-primary rounded px-1"
+              aria-label="Przełącz wysoki kontrast"
             >
               <span className="material-icons text-sm">contrast</span>
               <span>Kontrast</span>
             </button>
             <button 
-              onClick={increaseFontSize}
+              onClick={cycleFontSize}
               className="flex items-center gap-1 hover:text-primary transition-colors focus:ring-2 focus:ring-primary rounded px-1"
+              aria-label="Zmień wielkość tekstu"
             >
               <span className="material-icons text-sm">text_fields</span>
-              <span>Wielkość liter</span>
+              <span>
+                Wielkość liter 
+                <span className="ml-1 opacity-60">
+                  ({fontSizeIndex === 0 ? 'A' : fontSizeIndex === 1 ? 'A+' : 'A++'})
+                </span>
+              </span>
             </button>
           </div>
           <div className="flex gap-4">
@@ -56,9 +66,11 @@ const App: React.FC = () => {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/aktualnosci" element={<News />} />
             <Route path="/wydarzenia" element={<Events />} />
             <Route path="/kino" element={<Cinema />} />
             <Route path="/pracownie" element={<Workshops />} />
+            <Route path="/kontakt" element={<Contact />} />
           </Routes>
         </main>
 

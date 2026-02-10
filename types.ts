@@ -16,6 +16,7 @@ export interface NewsItem {
   title: string;
   date: string;
   excerpt: string;
+  content?: string;
   imageUrl: string;
   isImportant?: boolean;
 }

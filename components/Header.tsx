@@ -7,7 +7,8 @@ const Header: React.FC = () => {
   const location = useLocation();
 
   const navItems = [
-    { label: 'Aktualności', path: '/' },
+    { label: 'Start', path: '/' },
+    { label: 'Aktualności', path: '/aktualnosci' },
     { label: 'Wydarzenia', path: '/wydarzenia' },
     { label: 'Kino', path: '/kino' },
     { label: 'Pracownie', path: '/pracownie' },
@@ -41,7 +42,7 @@ const Header: React.FC = () => {
 
         <div className="flex items-center gap-3">
           <button className="hidden sm:flex bg-primary text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-            Bilety
+            Kup Bilet
           </button>
           <button 
             className="lg:hidden text-slate-700 dark:text-slate-300 p-2"

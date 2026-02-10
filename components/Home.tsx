@@ -12,7 +12,7 @@ const Home: React.FC = () => {
           <img 
             alt="Hero Concert" 
             className="w-full h-full object-cover opacity-60"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDemHZTbHYQf3BwOciTRhaTPn_5UCiHhPGvgFGV6FuS9EbMezwTBG0Rhzv57Y9-9vXX1uX__DjpwzVb5d3lJZJgi2ChKEdlQnCEAOMSuhEulk-bxpdHsATUyDh19tlQO6A8fL6SBVIJccza2uSoJ5lRcCCjfpzIDSZqlpadmIyE69vpnhrS0oyugk_2chttGP2zd18_GfEz6MwAmkGwCl9E9w_ErPk0nXi7YN4v9t4MCTZAKtQSW7lfbE1QyqNaDltA_F_xR50h4n4x" 
+            src="https://images.unsplash.com/photo-1459749411177-042180ce673c?q=80&w=2000&auto=format&fit=crop" 
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent"></div>
@@ -22,10 +22,10 @@ const Home: React.FC = () => {
             <h2 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Letni Festiwal Muzyki Alternatywnej</h2>
             <p className="text-xl text-slate-200 mb-8 leading-relaxed">Trzy dni niezapomnianych wrażeń, lokalni artyści i goście specjalni z całego kraju. Dołącz do nas w Parku Zamkowym.</p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-2 transition-all transform hover:scale-105">
+              <Link to="/wydarzenia" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-2 transition-all transform hover:scale-105">
                 <span className="material-icons">confirmation_number</span>
                 Kup bilet teraz
-              </button>
+              </Link>
               <button className="bg-white/10 hover:bg-white/20 backdrop-blur text-white border border-white/30 px-8 py-4 rounded-lg font-semibold transition-all">
                 Dowiedz się więcej
               </button>
@@ -68,29 +68,34 @@ const Home: React.FC = () => {
           </Link>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          {EVENTS.map(event => (
-            <div key={event.id} className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-md group border border-slate-100 dark:border-slate-700 transition-all hover:shadow-xl">
-              <div className="relative h-48 overflow-hidden">
-                <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                <div className="absolute top-4 left-4 bg-primary text-white text-center py-2 px-3 rounded-lg font-bold">
-                  <span className="block text-lg">{event.date.split('.')[0]}</span>
-                  <span className="block text-xs uppercase">{event.date.split('.')[1] === '10' ? 'Paź' : 'Lis'}</span>
+          {EVENTS.slice(0, 3).map(event => {
+            const dateParts = event.date.split('-');
+            const day = dateParts[2] || '??';
+            const month = dateParts[1] === '10' ? 'Paź' : 'Lis';
+            return (
+              <div key={event.id} className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-md group border border-slate-100 dark:border-slate-700 transition-all hover:shadow-xl">
+                <div className="relative h-48 overflow-hidden">
+                  <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="absolute top-4 left-4 bg-primary text-white text-center py-2 px-3 rounded-lg font-bold">
+                    <span className="block text-lg">{day}</span>
+                    <span className="block text-xs uppercase">{month}</span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <span className="text-xs font-bold text-primary uppercase tracking-widest">{event.category}</span>
+                  <h3 className="font-bold text-xl mb-4 mt-1 h-14 overflow-hidden dark:text-white">{event.title}</h3>
+                  <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
+                    <span className="material-icons text-sm">schedule</span>
+                    <span>{event.time} • {event.location}</span>
+                  </div>
+                  <Link to="/wydarzenia" className="w-full bg-slate-100 dark:bg-slate-700 hover:bg-primary hover:text-white text-slate-700 dark:text-slate-200 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2">
+                    <span className="material-icons text-lg">local_activity</span>
+                    Bilety: {event.price}
+                  </Link>
                 </div>
               </div>
-              <div className="p-6">
-                <span className="text-xs font-bold text-primary uppercase tracking-widest">{event.category}</span>
-                <h3 className="font-bold text-xl mb-4 mt-1 h-14 overflow-hidden dark:text-white">{event.title}</h3>
-                <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
-                  <span className="material-icons text-sm">schedule</span>
-                  <span>{event.time} • {event.location}</span>
-                </div>
-                <button className="w-full bg-slate-100 dark:bg-slate-700 hover:bg-primary hover:text-white text-slate-700 dark:text-slate-200 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2">
-                  <span className="material-icons text-lg">local_activity</span>
-                  Bilety: {event.price}
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -101,7 +106,7 @@ const Home: React.FC = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             {NEWS.map(news => (
               <article key={news.id} className={`${news.isImportant ? 'bg-primary text-white p-8 rounded-xl shadow-lg lg:col-span-1' : 'bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700'}`}>
-                {!news.isImportant && (
+                {!news.isImportant && news.imageUrl && (
                   <div className="h-48 overflow-hidden">
                     <img src={news.imageUrl} alt="" className="w-full h-full object-cover" />
                   </div>
@@ -110,7 +115,7 @@ const Home: React.FC = () => {
                   <span className={`text-xs font-bold ${news.isImportant ? 'text-white/80' : 'text-primary'} uppercase mb-2 block`}>{news.date}</span>
                   <h3 className={`font-bold text-xl mb-3 ${news.isImportant ? 'text-2xl' : 'dark:text-white'}`}>{news.title}</h3>
                   <p className={`${news.isImportant ? 'text-white/90' : 'text-slate-500 dark:text-slate-400'} text-sm leading-relaxed mb-4`}>{news.excerpt}</p>
-                  <a href="#" className={`font-bold text-sm ${news.isImportant ? 'text-white underline' : 'text-primary hover:underline'}`}>Czytaj więcej</a>
+                  <Link to="/aktualnosci" className={`font-bold text-sm ${news.isImportant ? 'text-white underline' : 'text-primary hover:underline'}`}>Czytaj więcej</Link>
                 </div>
               </article>
             ))}
