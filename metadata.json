@@ -1,0 +1,7 @@
+{
+  "name": "Copy of MDK Człuchów - Portal Kulturalny",
+  "description": "Nowoczesna platforma Miejskiego Domu Kultury w Człuchowie umożliwiająca przeglądanie aktualności, wydarzeń, repertuaru kina oraz zapisy na zajęcia artystyczne.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
